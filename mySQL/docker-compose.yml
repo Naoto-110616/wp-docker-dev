@@ -1,0 +1,41 @@
+version: "3"
+services:
+  db:
+    container_name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - default
+      - wordpressindocker_default
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8888:80
+    networks:
+      - default
+      - wordpressindocker_default
+  srdb:
+    container_name: srdb
+    image: kgaut/docker-search-replace-db
+    ports:
+      - 10000:80
+    environment:
+      DB_HOST: "db"
+      DB_USER: "root"
+      DB_PASS: "root"
+      DB_NAME: "db_name"
+    depends_on:
+      - db
+    networks:
+      - default
+      - wordpressindocker_default
+volumes:
+  db-data:
+
+networks:
+  wordpressindocker_default:
+    external: true

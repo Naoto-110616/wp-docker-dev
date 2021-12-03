@@ -1,0 +1,18 @@
+version: "3"
+services:
+  wp:
+    container_name: ${CONTAINER_NAME}_wp
+    image: wordpress
+    ports:
+      - ${WP_HTTP_LOCALPORT}:80
+    volumes:
+      - "./httpdocs/cms:/var/www/html"
+    networks:
+      - wordpressindocker_default
+
+volumes:
+  db-data:
+
+networks:
+  wordpressindocker_default:
+    external: true
